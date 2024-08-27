@@ -11,8 +11,11 @@ body {
     overflow: hidden;
     opacity: 0;
     animation: fadeIn 1.5s forwards ease-in-out;
+    position: relative; /* Added to allow absolute positioning of the background */
+    user-select: none; /* Prevent text selection */
 }
 
+/* Background visuals */
 .background-visuals {
     position: absolute;
     top: 0;
@@ -21,59 +24,78 @@ body {
     height: 100%;
     overflow: hidden;
     z-index: -1;
+    background: url('images/fon.jpg') no-repeat center center;
+    background-size: cover;
+    filter: blur(8px); /* Apply blur effect to the background */
+    animation: gradientAnimation 10s infinite alternate;
 }
 
-.floating-square {
+/* Glow Balls Animation */
+.glow-ball {
     position: absolute;
-    width: 150px;
-    height: 150px;
-    background-color: rgba(255, 255, 255, 0.05);
-    animation: float 20s infinite ease-in-out;
-    border-radius: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+    animation: moveGlowBall 20s linear infinite; /* Infinite loop */
 }
 
-.floating-square:nth-child(1) {
+/* Create multiple glow balls */
+.glow-ball:nth-child(1) {
+    width: 20px;
+    height: 20px;
     top: 10%;
-    left: 15%;
+    left: 10%;
     animation-duration: 18s;
 }
 
-.floating-square:nth-child(2) {
-    top: 50%;
-    left: 40%;
+.glow-ball:nth-child(2) {
+    width: 15px;
+    height: 15px;
+    top: 20%;
+    left: 50%;
     animation-duration: 22s;
 }
 
-.floating-square:nth-child(3) {
-    top: 75%;
+.glow-ball:nth-child(3) {
+    width: 25px;
+    height: 25px;
+    top: 50%;
     left: 70%;
-    animation-duration: 16s;
+    animation-duration: 25s;
 }
 
-@keyframes float {
-    0%, 100% {
+.glow-ball:nth-child(4) {
+    width: 18px;
+    height: 18px;
+    top: 80%;
+    left: 30%;
+    animation-duration: 30s;
+}
+
+.glow-ball:nth-child(5) {
+    width: 22px;
+    height: 22px;
+    top: 40%;
+    left: 80%;
+    animation-duration: 28s;
+}
+
+@keyframes moveGlowBall {
+    0% {
         transform: translate(0, 0);
     }
-    50% {
-        transform: translate(20px, -30px);
-    }
-}
-
-/* Profile Section */
-.container {
-    text-align: center;
-    animation: slideIn 1.5s forwards ease-in-out;
-}
-
-@keyframes slideIn {
-    0% {
-        transform: translateY(50px);
-        opacity: 0;
-    }
     100% {
-        transform: translateY(0);
-        opacity: 1;
+        transform: translate(calc(100vw - 20px), calc(100vh - 20px));
     }
+}
+
+/* Additional styles for other elements */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .avatar {
@@ -82,6 +104,9 @@ body {
     border-radius: 50%;
     border: 3px solid #333;
     margin-bottom: 20px;
+    transition: filter 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); /* Grayish glow effect */
 }
 
 .nickname {
@@ -92,33 +117,68 @@ body {
 }
 
 .description {
-    font-size: 1.5em;
+    font-size: 2em; /* Same size as nickname but slightly smaller */
+    line-height: 1.5; /* Increase line height for readability */
     margin: 15px 0;
-    font-weight: bold;
+    font-weight: regular;
+    text-align: center; /* Center align text */
+    color: #D3D3D3; /* Slightly darker white for better contrast */
 }
 
-/* Social Links */
 .socials {
     margin-top: 30px;
+    display: flex; /* Use flexbox for horizontal layout */
+    justify-content: center; /* Center align the buttons horizontally */
+    gap: 20px; /* Space between the buttons */
 }
 
 .social-link {
-    display: inline-block;
-    margin: 0 15px;
-    color: #fff;
-    font-weight: bold;
-    text-decoration: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    background-color: #1f1f1f;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    display: inline-flex; /* Use inline-flex to allow size adjustments */
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #333; /* Dark background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Darker shadow */
+    transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; /* Show pointer cursor */
+    -webkit-user-drag: none; /* Disable image dragging for WebKit browsers */
+    user-select: none; /* Prevent text selection */
+}
+
+.social-link img {
+    width: 30px;
+    height: 30px;
+    -webkit-user-drag: none; /* Disable image dragging for WebKit browsers */
+    user-select: none; /* Prevent text selection */
+}
+
+.social-link.discord {
+    background: #1c1f23;
+}
+
+.social-link.telegram {
+    background: #1c1f23;
+}
+
+.social-link.github {
+    background: #1c1f23;
+}
+
+.social-link.youtube {
+    background: #1c1f23;
 }
 
 .social-link:hover {
-    background-color: #ff4081;
-    transform: translateY(-5px);
-    box-shadow: 0 0 20px rgba(255, 64, 129, 0.6);
+    background: #444; /* Slightly lighter background on hover */
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+}
+
+.social-link:active {
+    transform: scale(0.95);
 }
 
 /* Fade-in Animation */
