@@ -84,43 +84,39 @@
 
         let timeCounter = 0;
 
-        async function fetchStats() {
-            try {
-                const response = await fetch('/track');
-                const data = await response.json();
-                
-                // Обновляем текстовый счетчик запросов
-                document.getElementById('requestCount').innerText = data.request_count;
-                
-                // Обновляем график
-                labels.push(timeCounter);
-                requestChart.data.labels = labels;
-                requestChart.data.datasets[0].data.push(data.request_count);
-                requestChart.update();
+        function simulateRequests() {
+            // Генерируем случайное количество запросов для имитации нагрузки
+            const requestCount = Math.floor(Math.random() * 200);
+            const THRESHOLD = 100;
 
-                // Увеличиваем счетчик времени
-                timeCounter += 1;
+            // Обновляем текстовый счетчик запросов
+            document.getElementById('requestCount').innerText = requestCount;
+            
+            // Добавляем данные на график
+            labels.push(timeCounter);
+            requestChart.data.labels = labels;
+            requestChart.data.datasets[0].data.push(requestCount);
+            requestChart.update();
 
-                // Отображаем предупреждение, если это DDoS
-                if (data.is_ddos) {
-                    document.getElementById('alertMessage').style.display = 'block';
-                } else {
-                    document.getElementById('alertMessage').style.display = 'none';
-                }
+            // Увеличиваем счетчик времени
+            timeCounter += 5;
 
-                // Удаляем старые данные с графика (если более 60 точек)
-                if (requestChart.data.labels.length > 60) {
-                    requestChart.data.labels.shift();
-                    requestChart.data.datasets[0].data.shift();
-                }
+            // Показываем предупреждение, если количество запросов превышает порог
+            if (requestCount > THRESHOLD) {
+                document.getElementById('alertMessage').style.display = 'block';
+            } else {
+                document.getElementById('alertMessage').style.display = 'none';
+            }
 
-            } catch (error) {
-                console.error('Error fetching stats:', error);
+            // Удаляем старые данные с графика (если более 60 точек)
+            if (requestChart.data.labels.length > 60) {
+                requestChart.data.labels.shift();
+                requestChart.data.datasets[0].data.shift();
             }
         }
-        
-        // Запрашиваем данные каждую секунду
-        setInterval(fetchStats, 1000);
+
+        // Запускаем функцию симуляции каждые 5 секунд
+        setInterval(simulateRequests, 5000);
     </script>
 </body>
 </html>
