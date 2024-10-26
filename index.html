@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NStat - DDoS Checker</title>
     <style>
+        /* Общий стиль */
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -12,30 +13,36 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            background-color: #1e1e1e; /* Темный фон */
+            color: #ffffff; /* Белый текст */
         }
         .stats {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .ddos-alert {
-            color: red;
+            color: #ff4d4d;
             font-weight: bold;
         }
+        /* Настройка холста графика */
         canvas {
-            max-width: 800px;
-            width: 100%;
+            max-width: 1000px;
+            width: 90%;
+            max-height: 200px;
+            height: 50%;
         }
     </style>
+    <!-- Подключаем Chart.js для графиков -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="stats">
-        <h1>NStat</h1>
-        <p>Requests per 5 seconds: <span id="requestCount">0</span></p>
+        <h1>NStat - DDoS Checker</h1>
+        <p>Requests per second: <span id="requestCount">0</span></p>
         <p id="alertMessage" class="ddos-alert" style="display:none;">Possible DDoS detected!</p>
     </div>
     
-    <!-- Контейнер для графика -->
+    <!-- Холст для графика -->
     <canvas id="requestChart"></canvas>
 
     <script>
@@ -44,9 +51,10 @@
         const data = {
             labels: labels,
             datasets: [{
-                label: 'Requests per 5 seconds',
-                backgroundColor: 'rgba(0, 123, 255, 0.5)',
-                borderColor: 'rgba(0, 123, 255, 1)',
+                label: 'Requests per second',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
                 data: []
             }]
         };
@@ -57,19 +65,34 @@
             data: data,
             options: {
                 responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#ffffff' // Белый цвет для подписей легенды
+                        }
+                    }
+                },
                 scales: {
                     x: {
                         type: 'linear',
                         title: {
                             display: true,
-                            text: 'Time (seconds)'
+                            text: 'Time (seconds)',
+                            color: '#ffffff'
+                        },
+                        ticks: {
+                            color: '#ffffff' // Белый цвет для меток времени
                         }
                     },
                     y: {
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Number of Requests'
+                            text: 'Number of Requests',
+                            color: '#ffffff'
+                        },
+                        ticks: {
+                            color: '#ffffff' // Белый цвет для меток на оси Y
                         }
                     }
                 }
@@ -99,7 +122,7 @@
             requestChart.update();
 
             // Увеличиваем счетчик времени
-            timeCounter += 5;
+            timeCounter += 1;
 
             // Показываем предупреждение, если количество запросов превышает порог
             if (requestCount > THRESHOLD) {
@@ -115,8 +138,8 @@
             }
         }
 
-        // Запускаем функцию симуляции каждые 5 секунд
-        setInterval(simulateRequests, 5000);
+        // Запускаем функцию симуляции каждую секунду
+        setInterval(simulateRequests, 1000);
     </script>
 </body>
 </html>
