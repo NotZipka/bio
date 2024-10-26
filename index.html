@@ -53,11 +53,10 @@
 
     <script>
         const THRESHOLD = 100; // Порог для DDoS
-        const labels = []; // Массив для меток времени
         const graphContainer = document.getElementById('requestGraph'); // Контейнер графика
 
         function simulateRequests() {
-            // Генерируем случайное количество запросов
+            // Генерируем случайное количество запросов от 0 до 200
             const requestCount = Math.floor(Math.random() * 200);
             document.getElementById('requestCount').innerText = requestCount;
 
