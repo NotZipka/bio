@@ -55,32 +55,35 @@
         const THRESHOLD = 100; // Порог для DDoS
         const graphContainer = document.getElementById('requestGraph'); // Контейнер графика
 
-        function simulateRequests() {
-            // Генерируем случайное количество запросов от 0 до 200
-            const requestCount = Math.floor(Math.random() * 200);
-            document.getElementById('requestCount').innerText = requestCount;
+        function sendRequest() {
+            fetch('https://example.com', { method: 'GET' }) // Замените на ваш URL
+                .then(response => {
+                    if (response.ok) {
+                        // Увеличиваем счетчик запросов
+                        let requestCount = parseInt(document.getElementById('requestCount').innerText) + 1;
+                        document.getElementById('requestCount').innerText = requestCount;
 
-            // Отображаем предупреждение, если количество запросов превышает порог
-            if (requestCount > THRESHOLD) {
-                document.getElementById('alertMessage').style.display = 'block';
-            } else {
-                document.getElementById('alertMessage').style.display = 'none';
-            }
+                        // Отображаем предупреждение, если количество запросов превышает порог
+                        if (requestCount > THRESHOLD) {
+                            document.getElementById('alertMessage').style.display = 'block';
+                        } else {
+                            document.getElementById('alertMessage').style.display = 'none';
+                        }
 
-            // Создаем новый столбец для графика
-            const bar = document.createElement('div');
-            bar.className = 'bar';
-            bar.style.height = `${requestCount}px`; // Высота столбца по количеству запросов
-            graphContainer.appendChild(bar);
-
-            // Удаляем старые данные, если график слишком длинный
-            if (graphContainer.childElementCount > 60) {
-                graphContainer.removeChild(graphContainer.firstChild); // Удаляем первый столбец
-            }
+                        // Создаем новый столбец для графика
+                        const bar = document.createElement('div');
+                        bar.className = 'bar';
+                        bar.style.height = '30px'; // Фиксированная высота столбца
+                        graphContainer.appendChild(bar);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
 
-        // Запускаем функцию симуляции каждую секунду
-        setInterval(simulateRequests, 1000);
+        // Запускаем функцию отправки запросов каждую секунду
+        setInterval(sendRequest, 1000);
     </script>
 </body>
 </html>
