@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NStat - DDoS Checker</title>
     <style>
-        /* Общий стиль */
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -23,118 +22,61 @@
         .ddos-alert {
             color: #ff4d4d;
             font-weight: bold;
+            display: none;
         }
-        /* Настройка холста графика */
-        canvas {
+        .graph {
+            width: 90%; /* Ширина графика */
             max-width: 1000px;
-            width: 90%;
-            max-height: 200px;
-            height: 50%;
+            height: 300px; /* Высота графика */
+            background-color: #2c2c2c; /* Цвет фона графика */
+            border: 1px solid #007bff; /* Синяя рамка */
+            position: relative; /* Позиционирование для графика */
+            overflow: hidden; /* Обрезка переполнения */
+        }
+        .bar {
+            display: inline-block;
+            background-color: #007bff; /* Синий цвет для столбцов */
+            margin: 1px;
+            transition: height 0.3s ease; /* Плавное изменение высоты */
         }
     </style>
-    <!-- Подключаем Chart.js для графиков -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="stats">
         <h1>NStat - DDoS Checker</h1>
         <p>Requests per second: <span id="requestCount">0</span></p>
-        <p id="alertMessage" class="ddos-alert" style="display:none;">Possible DDoS detected!</p>
+        <p id="alertMessage" class="ddos-alert">Possible DDoS detected!</p>
     </div>
-    
-    <!-- Холст для графика -->
-    <canvas id="requestChart"></canvas>
+
+    <!-- Контейнер для графика -->
+    <div id="requestGraph" class="graph"></div>
 
     <script>
-        // Инициализация данных для графика
-        const labels = [];
-        const data = {
-            labels: labels,
-            datasets: [{
-                label: 'Requests per second',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 2,
-                data: []
-            }]
-        };
-
-        // Конфигурация графика
-        const config = {
-            type: 'line',
-            data: data,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: '#ffffff' // Белый цвет для подписей легенды
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'linear',
-                        title: {
-                            display: true,
-                            text: 'Time (seconds)',
-                            color: '#ffffff'
-                        },
-                        ticks: {
-                            color: '#ffffff' // Белый цвет для меток времени
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Number of Requests',
-                            color: '#ffffff'
-                        },
-                        ticks: {
-                            color: '#ffffff' // Белый цвет для меток на оси Y
-                        }
-                    }
-                }
-            }
-        };
-
-        // Создаем график
-        const requestChart = new Chart(
-            document.getElementById('requestChart'),
-            config
-        );
-
-        let timeCounter = 0;
+        const THRESHOLD = 100; // Порог для DDoS
+        const labels = []; // Массив для меток времени
+        const graphContainer = document.getElementById('requestGraph'); // Контейнер графика
 
         function simulateRequests() {
-            // Генерируем случайное количество запросов для имитации нагрузки
+            // Генерируем случайное количество запросов
             const requestCount = Math.floor(Math.random() * 200);
-            const THRESHOLD = 100;
-
-            // Обновляем текстовый счетчик запросов
             document.getElementById('requestCount').innerText = requestCount;
-            
-            // Добавляем данные на график
-            labels.push(timeCounter);
-            requestChart.data.labels = labels;
-            requestChart.data.datasets[0].data.push(requestCount);
-            requestChart.update();
 
-            // Увеличиваем счетчик времени
-            timeCounter += 1;
-
-            // Показываем предупреждение, если количество запросов превышает порог
+            // Отображаем предупреждение, если количество запросов превышает порог
             if (requestCount > THRESHOLD) {
                 document.getElementById('alertMessage').style.display = 'block';
             } else {
                 document.getElementById('alertMessage').style.display = 'none';
             }
 
-            // Удаляем старые данные с графика (если более 60 точек)
-            if (requestChart.data.labels.length > 60) {
-                requestChart.data.labels.shift();
-                requestChart.data.datasets[0].data.shift();
+            // Создаем новый столбец для графика
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            bar.style.height = `${requestCount}px`; // Высота столбца по количеству запросов
+            graphContainer.appendChild(bar);
+
+            // Удаляем старые данные, если график слишком длинный
+            if (graphContainer.childElementCount > 60) {
+                graphContainer.removeChild(graphContainer.firstChild); // Удаляем первый столбец
             }
         }
 
