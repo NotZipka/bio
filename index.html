@@ -8,19 +8,25 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
         .stats {
             text-align: center;
+            margin-bottom: 20px;
         }
         .ddos-alert {
             color: red;
             font-weight: bold;
         }
+        canvas {
+            max-width: 800px;
+            width: 100%;
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="stats">
@@ -28,26 +34,93 @@
         <p>Requests per 5 seconds: <span id="requestCount">0</span></p>
         <p id="alertMessage" class="ddos-alert" style="display:none;">Possible DDoS detected!</p>
     </div>
+    
+    <!-- Контейнер для графика -->
+    <canvas id="requestChart"></canvas>
 
     <script>
+        // Инициализация данных для графика
+        const labels = [];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Requests per 5 seconds',
+                backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                borderColor: 'rgba(0, 123, 255, 1)',
+                data: []
+            }]
+        };
+
+        // Конфигурация графика
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'linear',
+                        title: {
+                            display: true,
+                            text: 'Time (seconds)'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Requests'
+                        }
+                    }
+                }
+            }
+        };
+
+        // Создаем график
+        const requestChart = new Chart(
+            document.getElementById('requestChart'),
+            config
+        );
+
+        let timeCounter = 0;
+
         async function fetchStats() {
             try {
                 const response = await fetch('/track');
                 const data = await response.json();
                 
+                // Обновляем текстовый счетчик запросов
                 document.getElementById('requestCount').innerText = data.request_count;
                 
+                // Обновляем график
+                labels.push(timeCounter);
+                requestChart.data.labels = labels;
+                requestChart.data.datasets[0].data.push(data.request_count);
+                requestChart.update();
+
+                // Увеличиваем счетчик времени
+                timeCounter += 1;
+
+                // Отображаем предупреждение, если это DDoS
                 if (data.is_ddos) {
                     document.getElementById('alertMessage').style.display = 'block';
                 } else {
                     document.getElementById('alertMessage').style.display = 'none';
                 }
+
+                // Удаляем старые данные с графика (если более 60 точек)
+                if (requestChart.data.labels.length > 60) {
+                    requestChart.data.labels.shift();
+                    requestChart.data.datasets[0].data.shift();
+                }
+
             } catch (error) {
                 console.error('Error fetching stats:', error);
             }
         }
         
-        setInterval(fetchStats, 1000); // Обновление данных каждую секунду
+        // Запрашиваем данные каждую секунду
+        setInterval(fetchStats, 1000);
     </script>
 </body>
 </html>
