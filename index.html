@@ -3,41 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NotZepka</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/titleAnimation.js" defer></script>
+    <title>NStat - DDoS Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .stats {
+            text-align: center;
+        }
+        .ddos-alert {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <div class="background-visuals">
-        <div class="glow-ball"></div>
-        <div class="glow-ball"></div>
-        <div class="glow-ball"></div>
-        <div class="glow-ball"></div>
-        <div class="glow-ball"></div>
-        <div class="floating-square"></div>
-        <div class="floating-square"></div>
-        <div class="floating-square"></div>
+    <div class="stats">
+        <h1>NStat</h1>
+        <p>Requests per 5 seconds: <span id="requestCount">0</span></p>
+        <p id="alertMessage" class="ddos-alert" style="display:none;">Possible DDoS detected!</p>
     </div>
-    <div class="container">
-        <div class="profile">
-            <img src="images/2c6c7907fe5e9070e977cc94c1af923b.jpg" alt="Avatar" class="avatar">
-            <h1 class="nickname">NotZepka</h1>
-            <p class="description">Java govno coding!</p>
-        </div>
-        <div class="socials">
-            <a href="https://discord.com/users/1180178134197354570" target="_blank" class="social-link discord">
-                <img src="images/discord.png" alt="Discord Icon">
-            </a>
-            <a href="https://t.me/notzepka" target="_blank" class="social-link telegram">
-                <img src="images/telegram.png" alt="Telegram Icon">
-            </a>
-            <a href="https://github.com/NotZipka" target="_blank" class="social-link github">
-                <img src="images/github.png" alt="GitHub Icon">
-            </a>
-            <a href="https://www.youtube.com/@NotZepka" target="_blank" class="social-link youtube">
-                <img src="images/youtube.png" alt="YouTube Icon">
-            </a>
-        </div>
-    </div>
+
+    <script>
+        async function fetchStats() {
+            try {
+                const response = await fetch('/track');
+                const data = await response.json();
+                
+                document.getElementById('requestCount').innerText = data.request_count;
+                
+                if (data.is_ddos) {
+                    document.getElementById('alertMessage').style.display = 'block';
+                } else {
+                    document.getElementById('alertMessage').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+            }
+        }
+        
+        setInterval(fetchStats, 1000); // Обновление данных каждую секунду
+    </script>
 </body>
 </html>
