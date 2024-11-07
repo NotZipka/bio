@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #1a1a1a; /* Очень темный серый фон */
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* предотвращает прокрутку страницы */
+    cursor: url('images/cursor.cur'), auto; /* Используем кастомный курсор в формате .cur */
+}
+
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95); /* Очень темный наложенный фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    z-index: 10; /* Делаем наложение выше всего остального */
+    transition: opacity 1s;
+}
+
+.profile-container {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1); /* Полупрозрачный очень темный фон */
+    backdrop-filter: blur(10px); /* Размытие фона */
+    border-radius: 10px;
+    width: 400px;
+    color: #fff;
+    display: none; /* скрываем до нажатия */
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8); /* Тень контейнера */
+}
+
+.avatar-container {
+    padding: 20px; /* Отступы вокруг контейнера */
+}
+
+.nickname {
+    font-size: 28px; /* Размер шрифта для никнейма */
+    color: #00bfff; /* Цвет текста для никнейма */
+    text-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff; /* Эффект свечения */
+    margin-bottom: 15px; /* Отступ снизу */
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.avatar {
+    position: relative; /* Чтобы подсказка располагалась относительно аватара */
+}
+
+.avatar img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+
+.tooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8); /* Темный фон для подсказки */
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    visibility: hidden; /* Скрываем подсказку по умолчанию */
+}
+
+.icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.icons a {
+    cursor: url('images/cursor.cur'), auto; /* Указываем кастомный курсор для ссылок */
+}
+
+.icons a img {
+    width: 48px; /* Устанавливаем размер */
+    height: 48px; /* Поддерживаем пропорции */
+    transition: transform 0.3s;
+}
+
+.icons a img:hover {
+    transform: scale(1.1);
+}
+
+.white-screen {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 15; /* Ставим ниже текста скримера */
+    display: none; /* Скрываем по умолчанию */
+}
