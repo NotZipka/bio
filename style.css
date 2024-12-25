@@ -1,0 +1,185 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #232323;
+    position: relative;
+}
+
+/* Видео на весь экран */
+video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+/* Текст "Нажмите чтобы продолжить..." */
+.message {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    color: white;
+    text-align: center;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Контейнер с био */
+.bio-container {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+    z-index: 3;
+    width: 350px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.bio-container h1 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: white;
+    margin-bottom: 20px;
+}
+
+/* Центрирование аватарки */
+.bio-avatar {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    background-image: url('img/avatar.jpg');
+    background-size: cover;
+    background-position: center;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+.bio-icons {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.bio-icons img {
+    width: 60px;
+    height: 60px;
+    transition: transform 0.3s ease;
+}
+
+.bio-icons img:hover {
+    transform: scale(1.3);
+}
+
+/* Контейнер с калькулятором */
+.calculator-container {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+    z-index: 3;
+    width: 350px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translateY(-50%);
+}
+
+.calculator-container h1 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: white;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.calculator-screen {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: right;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    min-height: 60px;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+}
+
+.calculator-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.calculator-button {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+    border: none;
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.calculator-button:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+}
+
+/* Музыка */
+.music {
+    display: none;
+}
+
+/* Контейнер для частиц */
+#particles-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* Контейнер с датой и временем */
+.time-container {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 15px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    z-index: 4;
+}

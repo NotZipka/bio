@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор и Био</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Видео на весь экран -->
+    <video id="background-video" autoplay muted>
+        <source src="img/video.mp4" type="video/mp4">
+        Ваш браузер не поддерживает видео.
+    </video>
+
+    <!-- Текст "Нажмите чтобы продолжить..." -->
+    <div class="message" id="message">
+        Нажмите, чтобы продолжить...
+    </div>
+
+    <!-- Контейнер с био -->
+    <div class="bio-container" id="bio-container">
+        <h1>notzepka</h1>
+        <div class="bio-avatar"></div>
+        <div class="bio-icons">
+            <a href="https://discord.com/users/1180178134197354570" target="_blank">
+                <img src="img/discord.png" alt="Discord">
+            </a>
+            <a href="https://t.me/notzepka" target="_blank">
+                <img src="img/telegram.png" alt="Telegram">
+            </a>
+            <a href="https://github.com/NotZipka" target="_blank">
+                <img src="img/github.png" alt="GitHub">
+            </a>
+        </div>
+    </div>
+
+    <!-- Контейнер с калькулятором -->
+    <div class="calculator-container" id="calculator-container">
+        <h1>Калькулятор</h1>
+        <div class="calculator-screen" id="calculator-screen">0</div>
+        <div class="calculator-buttons">
+            <button class="calculator-button" onclick="appendToScreen('7')">7</button>
+            <button class="calculator-button" onclick="appendToScreen('8')">8</button>
+            <button class="calculator-button" onclick="appendToScreen('9')">9</button>
+            <button class="calculator-button" onclick="appendToScreen('/')">/</button>
+
+            <button class="calculator-button" onclick="appendToScreen('4')">4</button>
+            <button class="calculator-button" onclick="appendToScreen('5')">5</button>
+            <button class="calculator-button" onclick="appendToScreen('6')">6</button>
+            <button class="calculator-button" onclick="appendToScreen('*')">*</button>
+
+            <button class="calculator-button" onclick="appendToScreen('1')">1</button>
+            <button class="calculator-button" onclick="appendToScreen('2')">2</button>
+            <button class="calculator-button" onclick="appendToScreen('3')">3</button>
+            <button class="calculator-button" onclick="appendToScreen('-')">-</button>
+
+            <button class="calculator-button" onclick="appendToScreen('0')">0</button>
+            <button class="calculator-button" onclick="appendToScreen('.')">.</button>
+            <button class="calculator-button" onclick="clearScreen()">C</button>
+            <button class="calculator-button" onclick="appendToScreen('+')">+</button>
+
+            <button class="calculator-button" onclick="calculateResult()" colspan="2">=</button>
+        </div>
+    </div>
+
+    <!-- Музыка -->
+    <audio class="music" id="music" autoplay loop>
+        <source src="music.mp3" type="audio/mp3">
+        Ваш браузер не поддерживает аудио.
+    </audio>
+
+    <!-- Контейнер для частиц -->
+    <div id="particles-js"></div>
+
+    <!-- Контейнер с датой и временем -->
+    <div class="time-container" id="time-container">
+        <span id="time"></span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <script src="all.js"></script>
+</body>
+</html>
